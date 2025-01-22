@@ -85,8 +85,10 @@ func main() {
 }
 
 func downloadFile(client *s3.Client, key string) error {
-	if err := os.MkdirAll(getParentDir(key), os.ModePerm); err != nil {
-		return fmt.Errorf("failed to create directories for %s: %w", key, err)
+	if getParentDir(key) != "" {
+		if err := os.MkdirAll(getParentDir(key), os.ModePerm); err != nil {
+			return fmt.Errorf("failed to create directories for %s: %w", key, err)
+		}
 	}
 
 	file, err := os.Create(key)
@@ -105,7 +107,7 @@ func downloadFile(client *s3.Client, key string) error {
 		return fmt.Errorf("failed to download file %s: %w", key, err)
 	}
 
-	fmt.Printf("File %s downloaded successfully\n", key)
+	fmt.Printf("Download succeeded.\n\n")
 
 	return nil
 }
