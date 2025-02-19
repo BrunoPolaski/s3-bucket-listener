@@ -86,10 +86,7 @@ func downloadFile(client *s3.Client, key string) error {
 		}
 	}
 
-	keyWithoutExtension := key[:strings.LastIndex(key, ".")]
-	ext := key[strings.LastIndex(key, "."):]
-
-	file, err := os.Create(keyWithoutExtension + time.Now().Format("_15_04_05") + ext)
+	file, err := os.Create(key)
 	if err != nil {
 		log.Fatal(err)
 	}
